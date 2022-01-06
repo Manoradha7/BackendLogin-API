@@ -21,13 +21,10 @@ const app = express();
 
 // Middleware
 dotenv.config();
-const corsOptions ={
-  origin:'https://sharp-payne-15d7d3.netlify.app', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}
 
-app.use(cors(corsOptions))
+app.use(cors({
+  origin:'https://sharp-payne-15d7d3.netlify.app', 
+}))
 app.use(express.json());
 app.use(
   bodyParser.urlencoded({
