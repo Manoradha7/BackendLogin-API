@@ -137,7 +137,7 @@ app.post("/forgetpassword", async (req, res) => {
   Mail(token, email);
   
   // Using nodemailer the token will be sent to the registered email
-  return res.send( updatedResult, token );
+  return res.send( {updatedResult, token} );
 });
 
 //forget password
