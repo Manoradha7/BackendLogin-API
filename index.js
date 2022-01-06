@@ -22,7 +22,7 @@ const app = express();
 // Middleware
 dotenv.config();
 const corsOptions ={
-  origin:'*', 
+  origin:'https://sharp-payne-15d7d3.netlify.app', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200,
 }
