@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware
 dotenv.config();
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(
   bodyParser.urlencoded({
@@ -110,17 +110,22 @@ app.post("/signin", async (req, res) => {
 
 // forget password
 app.post("/forgetpassword", async (req, res) => {
- //getting the data from the body
+ 
+  //getting the data from the body
   const { email } = req.body;
+ 
   // getting the data from the Db 
   const data = await getUser(email);
   console.log(data);
+ 
   // if there is no data throe an error message
   if (!data) {
     res.status(400).send({ Message: "Invalid credentials" });
   }
+ 
   // If the email is present in the database,token  is  generated for the user
   const token = jwt.sign({ id: data._id }, process.env.SECRET_KEY);
+ 
   //  The generated token will replace the old password
   const replacePassword = await passwordUpdate({ email, token });
   console.log(replacePassword);
@@ -130,8 +135,9 @@ app.post("/forgetpassword", async (req, res) => {
 
   // mail for reset the password
   Mail(token, email);
+  
   // Using nodemailer the token will be sent to the registered email
-  return res.send({ updatedResult, token });
+  return res.send( updatedResult, token );
 });
 
 //forget password
