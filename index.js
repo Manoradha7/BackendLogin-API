@@ -195,7 +195,7 @@ function Mail(token, email) {
     },
   });
 
-  const link = `http://localhost:3000/forgetpassword/verify/${token}`;
+  const link = `https://sharp-payne-15d7d3.netlify.app/forgetpassword/verify/${token}`;
   const mailOptions = {
     from: process.env.email,
     to: email,
