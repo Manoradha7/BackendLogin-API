@@ -23,7 +23,7 @@ const app = express();
 dotenv.config();
 
 app.use(cors({
-  origin:'https://sharp-payne-15d7d3.netlify.app', 
+  origin:'*', 
 }))
 app.use(express.json());
 app.use(
