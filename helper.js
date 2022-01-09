@@ -43,6 +43,13 @@ async function updateuser(values) {
     .updateOne({ email }, { $set: { Password: Password } });
   return result;
 }
+
+async function getUserpass({ password: token }) {
+  return client
+    .db("ZHSS")
+    .collection("users")
+    .findOne({ password: token });
+}
 //exporting the components
 export {
   genPassword,
@@ -51,4 +58,5 @@ export {
   getUser,
   getuser,
   updateuser,
+  getUserpass,
 };
