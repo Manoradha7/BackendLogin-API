@@ -110,7 +110,7 @@ app.post("/signin", async (req, res) => {
 });
 
 // forget password
-app.post("/forgetpassword", async (req, res) => {
+app.post("/forgetpassword1", async (req, res) => {
  
   //getting the data from the body
   const { email } = req.body;
