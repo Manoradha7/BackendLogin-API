@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import res from "express/lib/response";
+
 import { client } from "./index.js";
 //generate hashpassword
 async function genPassword(password) {
