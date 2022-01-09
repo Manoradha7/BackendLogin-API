@@ -26,13 +26,9 @@ async function createUser(name, email, hashedPassword) {
     .insertOne({ name, email, password: hashedPassword });
 }
 // finduser user data using email
-async function getUser(email) {
-  
+async function getUser(email) { 
     console.log(email);
-     return await client.db("primestar").collection("users").findOne({ email: email });
-     
- 
- 
+     return client.db("primestar").collection("users").findOne({ email });
 }
 //find user data
 async function getuser(values) {
