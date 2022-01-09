@@ -27,13 +27,11 @@ async function createUser(name, email, hashedPassword) {
 }
 // finduser user data using email
 async function getUser(email) {
-  try {
+  
     console.log(email);
-     let userEmail = await client.db("primestar").collection("users").findOne({ email: email });
-     return userEmail;
-  } catch (err) {
-    res.send(err);
-  }
+     return await client.db("primestar").collection("users").findOne({ email: email });
+     
+ 
  
 }
 //find user data
