@@ -121,7 +121,7 @@ app.post("/forgetpassword1", async (req, res) => {
  
   // if there is no data throe an error message
   if (!data) {
-    res.status(400).send({ Message: "Invalid credentials" });
+    res.status(503).send({ Message: "Invalid credentials" });
   }
  
   // If the email is present in the database,token  is  generated for the user
