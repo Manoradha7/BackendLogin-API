@@ -110,7 +110,7 @@ app.post("/signin", async (req, res) => {
 });
 
 // forget password
-app.post("/forgetpassword1", async (req, res) => {
+app.post("/forgetpassword", async (req, res) => {
  
   //getting the data from the body
   const { email } = req.body;
@@ -121,7 +121,7 @@ app.post("/forgetpassword1", async (req, res) => {
  
   // if there is no data throe an error message
   if (!data) {
-    res.status(503).send({ Message: "Invalid credentials" });
+    res.status(400).send({ Message: "Invalid credentials" });
   }
  
   // If the email is present in the database,token  is  generated for the user
@@ -195,7 +195,7 @@ function Mail(token, email) {
     },
   });
 
-  const link = `https://sharp-payne-15d7d3.netlify.app/forgetpassword/verify/${token}`;
+  const link = `https://priceless-swartz-5ce069.netlify.app/forgetpassword/verify/${token}`;
   const mailOptions = {
     from: process.env.email,
     to: email,
