@@ -10,6 +10,7 @@ import {
   getUser,
   getuser,
   updateuser,
+  getUserpass
 } from "./helper.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -168,7 +169,7 @@ app.post("/resetpassword", async (req, res) => {
     return res.status(400).send({ Message: "password must be longer" });
   }
 // get the data
-  const data = await getUser({ password: token });
+  const data = await getUserpass({ password: token });
 // the data is not there in the DB return an error msg
   if (!data) {
     return res.status(401).send({ Message: "Invalid credentials" });
