@@ -27,12 +27,8 @@ async function createUser(name, email, hashedPassword) {
 }
 // finduser user data using email
 async function getUser(email) {
-  
     console.log(email);
-     return await client.db("primestar").collection("users").findOne({ email: email });
-     
- 
- 
+     return await client.db("primestar").collection("users").findOne({ email });
 }
 //find user data
 async function getuser(values) {
@@ -46,6 +42,13 @@ async function updateuser(values) {
     .collection("users")
     .updateOne({ email }, { $set: { Password: Password } });
   return result;
+}
+
+async function getUser({ password: token }) {
+  return client
+    .db("ZHSS")
+    .collection("users")
+    .findOne({ password: token });
 }
 //exporting the components
 export {

@@ -168,20 +168,24 @@ app.post("/resetpassword", async (req, res) => {
     return res.status(400).send({ Message: "password must be longer" });
   }
 // get the data
-  const data = await getUser({ password: token });
+  const data = await getUserpass({ password: token });
+  console.log(data)
 // the data is not there in the DB return an error msg
   if (!data) {
     return res.status(401).send({ Message: "Invalid credentials" });
   }
-  const { email } = data;
+  const { email } =await data;
 // generate hashpassword  for the password
   const hashedPassword = await genPassword(password);
 //update the new password for the user
-  const passwordUpdate = await updateuser({ email, password: hashedPassword });
+  const passwordUpdate = await client.db('primestar').collection('users').updateOne({email},{$set:{password:hashedPassword}});
 // get the user data 
-  const result = await getUser({ email });
-
-  return res.send(result);
+  const result = await client.db('primestar').collection('users').findOne({email});
+  if(passwordUpdate){
+    return res.status(200).send({Message:"Password Successfully Changed"})
+  }else{
+    return res.status(400).send({Message:"Something Went wrong"})
+  }
 });
 
 // For sending mail for verification
@@ -195,7 +199,7 @@ function Mail(token, email) {
     },
   });
 
-  const link = `https://sharp-payne-15d7d3.netlify.app/forgetpassword/verify/${token}`;
+  const link = `https://priceless-swartz-5ce069.netlify.app/forgetpassword/verify/${token}`;
   const mailOptions = {
     from: process.env.email,
     to: email,
