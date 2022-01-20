@@ -160,29 +160,46 @@ app.get("/forgetpassword/verify", async (req, res) => {
   }
 });
 
-// resetpassword
+/Resetpassword
 app.post("/resetpassword", async (req, res) => {
-  // get the data from the body
-  const { password, token } = req.body;
-// If password length is less than 8 return longer password require message
-  if (password.length < 8) {
-    return res.status(400).send({ Message: "password must be longer" });
-  }
-// get the data
-  const data = await getUserpass({ password: token });
-// the data is not there in the DB return an error msg
-  if (!data) {
-    return res.status(401).send({ Message: "Invalid credentials" });
-  }
-  const { email } = data;
-// generate hashpassword  for the password
-  const hashedPassword = await genPassword(password);
-//update the new password for the user
-  const passwordUpdate = await updateuser({ email, password: hashedPassword });
-// get the user data 
-  const result = await getUser({ email });
+  //get require data from the body
+  const { password ,passwordConfirmation,token} = req.body;
 
-  return res.send(result);
+  //check the password length
+  if (password.length < 8) {
+    return res.status(400).send({ Message: "Password must be longer" });
+  }
+
+  //check the data
+  const check = await client
+    .db("primestar")
+    .collection("users")
+    .findOne({ password: token });
+//the data is not there return an error
+  if (!check) {
+    return res.status(400).send({ Message: "Link expired" });
+  }
+//get the email from the data
+  const { email } = await check;
+
+  //change the password into hashed password
+  const hashedPassword = await genPassword(password);
+
+  // update the password into db
+  const updatepassword = await client.db("primestar").collection("users").updateOne({email},{$set:{password:hashedPassword,passwordConfirmation:passwordConfirmation}});
+ 
+  //check the data
+  const checkdata = await client
+    .db("primestar")
+    .collection("users")
+    .findOne({email});
+  
+  //if password updated then return success message
+  if(updatepassword){
+    return res.status(200).send({Message:"Password Successfully Changed"})
+  }else{
+    return res.status(400).send({Message:"Something Went Wrong"})
+  }
 });
 
 // For sending mail for verification
