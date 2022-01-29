@@ -46,7 +46,7 @@ async function updateuser(values) {
 
 async function getUserpass({ password: token }) {
   return client
-    .db("ZHSS")
+    .db("primestar")
     .collection("users")
     .findOne({ password: token });
 }
