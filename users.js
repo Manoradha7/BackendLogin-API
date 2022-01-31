@@ -7,6 +7,7 @@ import {
   createUser,
   updateUser,
   getUserByEmail,
+  getUserpass
 } from "./helper.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
