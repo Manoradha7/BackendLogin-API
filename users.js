@@ -62,7 +62,7 @@ router.route("/signup").post(async (req, res) => {
   const storetoken = await updateUser(email, token);
 
   //crate a link for twostep verification
-  const link = `http://localhost:8000/users/twostepverification/${token}`;
+  const link = `https://password-change-api.herokuapp.com/users/twostepverification/${token}`;
   const message = `<h3>Greetings ${name} !!!</h3>
 <p>Welcome to the world of Shasha Player</p>
 <p>Using our services you can Enjoy free Music</p>
@@ -89,7 +89,7 @@ router.route("/twostepverification/:id").get(async (req, res) => {
       .db("primestar")
       .collection("users")
       .updateOne({ _id }, { $set: { Status: "Active", token: "" } });
-    res.redirect(`http://localhost:3000/signin`);
+    res.redirect(`https://priceless-swartz-5ce069.netlify.app/signin`);
   } catch (err) {
     return res.status(400).send({ Message: "Link Expired" });
   }
@@ -154,7 +154,7 @@ router.route("/forgetpassword").post(async (req, res) => {
     .collection("users")
     .updateOne({ _id: _id }, { $set: { password: token } });
   // console.log(tokenchange);
-  const link = `http://localhost:8000/users/forgetpassword/verify/${token}`;
+  const link = `https://password-change-api.herokuapp.com/users/forgetpassword/verify/${token}`;
 
   const message = `<h3>Greetings ${fname} !!!</h3>
     <p>Welcome to the world of Shasha Player</p>
@@ -184,7 +184,7 @@ router.route("/forgetpassword/verify/:id").get(async (req, res) => {
   if (!datacheck) {
     return res.status(400).send({ Message: "Link Expired" });
   }
-  return res.redirect(`http://localhost:3000/resetpassword/${id}`);
+  return res.redirect(`https://priceless-swartz-5ce069.netlify.app/resetpassword/${id}`);
 });
 
 //Resetpassword
