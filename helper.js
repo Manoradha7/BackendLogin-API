@@ -42,6 +42,7 @@ async function updateUser(email, token) {
     .updateOne({ email }, { $set: { token: token } });
 }
 
+<<<<<<< HEAD
 
 //Mail function for sending the Mail messages
 function Mail(email, res, message) {
@@ -69,6 +70,13 @@ function Mail(email, res, message) {
       res.send("Mail Sent For verification");
     }
   });
+=======
+async function getUserpass({ password: token }) {
+  return client
+    .db("primestar")
+    .collection("users")
+    .findOne({ password: token });
+>>>>>>> 8001a720761802d5cf9b3aaf2eac1ff4d0abee92
 }
 
 export {
