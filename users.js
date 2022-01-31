@@ -72,6 +72,8 @@ router.route("/signup").post(async (req, res) => {
 `;
   //sent mail for activate the account
   const mail = Mail(email, res, message);
+  
+  return res.status(200).json({Message:'Mail send for Verification'});
 });
 
 router.route("/twostepverification/:id").get(async (req, res) => {
