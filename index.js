@@ -42,8 +42,6 @@ app.listen(PORT, console.log("App is running in PORT :", PORT));
 app.get("/", (req, res) => {
   res.send(" Password change Api");
 });
-<<<<<<< HEAD
-=======
 
 // forget password
 app.post("/forgetpassword", async (req, res) => {
@@ -95,7 +93,7 @@ app.get("/forgetpassword/verify", async (req, res) => {
   }
 });
 
-/Resetpassword
+//Resetpassword
 app.post("/resetpassword", async (req, res) => {
   //get require data from the body
   const { password ,passwordConfirmation,token} = req.body;
@@ -164,4 +162,3 @@ function Mail(token, email) {
     }
   });
 }
->>>>>>> 8001a720761802d5cf9b3aaf2eac1ff4d0abee92
