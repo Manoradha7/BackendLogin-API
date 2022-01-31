@@ -1,61 +1,81 @@
+//import required packages
 import bcrypt from "bcrypt";
-
+import nodemailer from "nodemailer";
 import { client } from "./index.js";
-//generate hashpassword
+
+// generate hashedpassword for the password
 async function genPassword(password) {
-  const no_of_rounds = 10;
-  const salt = await bcrypt.genSalt(no_of_rounds);
+  const rounds = 10;
+  const salt = await bcrypt.genSalt(rounds);
   const hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
 }
 
-// After forgot password,here the token will update the existing password
-async function passwordUpdate(data) {
-  let { email, token } = data;
-  let result = await client
-    .db("primestar")
-    .collection("users")
-    .updateOne({ email }, { $set: { password: token } });
-  return result;
-}
-//inserting userb details in Database
-async function createUser(name, email, hashedPassword) {
-  return client
-    .db("primestar")
-    .collection("users")
-    .insertOne({ name, email, password: hashedPassword });
-}
-// finduser user data using email
-async function getUser(email) {
-    console.log(email);
-     return await client.db("primestar").collection("users").findOne({ email });
-}
-//find user data
-async function getuser(values) {
-  return client.db("primestar").collection("users").findOne(values);
-}
-// updating user data password
-async function updateuser(values) {
-  const { email, Password } = values;
-  let result = await client
-    .db("primestar")
-    .collection("users")
-    .updateOne({ email }, { $set: { Password: Password } });
-  return result;
+async function createUser(
+  name,
+  email,
+  hashedPassword,
+  passwordConfirmation
+) {
+  return await client.db("primestar").collection("users").insertOne({
+    name,
+    email,
+    password: hashedPassword,
+    passwordConfirmation,
+    Status: "InActive",
+    token: "",
+  });
 }
 
-async function getUser({ password: token }) {
-  return client
-    .db("ZHSS")
-    .collection("users")
-    .findOne({ password: token });
+async function getUser(userData) {
+  return await client.db("primestar").collection("users").findOne(userData);
 }
-//exporting the components
+
+async function getUserByEmail(email) {
+  return await client.db("primestar").collection("users").findOne({ email });
+}
+
+async function updateUser(email, token) {
+  return await client
+    .db("primestar")
+    .collection("users")
+    .updateOne({ email }, { $set: { token: token } });
+}
+
+
+//Mail function for sending the Mail messages
+function Mail(email, res, message) {
+  const mail = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.email,
+      pass: process.env.password,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.email,
+    to: email,
+    subject: "Mail From URL Shortener",
+    html: message,
+  };
+
+  mail.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log("Mail", err);
+      res.status(404).send("error");
+    } else {
+      console.log("Mailstatus :", info.response);
+      res.send("Mail Sent For verification");
+    }
+  });
+}
+
 export {
   genPassword,
-  passwordUpdate,
-  createUser,
+  Mail,
   getUser,
-  getuser,
-  updateuser,
+  createUser,
+  updateUser,
+  getUserByEmail,
 };
